@@ -89,7 +89,77 @@ if($url['result'] != 100)
 }
  
 $result =  json_encode($balas);
-
+#-------------------------[Open]-------------------------#
+function qibla($keyword) { 
+    $uri = "https://time.siswadi.com/qibla/" . $keyword; 
+ 
+    $response = Unirest\Request::get("$uri"); 
+ 
+    $json = json_decode($response->raw_body, true); 
+ $result .= $json['data']['image'];
+    return $result; 
+}
+//show menu, saat join dan command,menu
+if ($command == 'Help') {
+    $text .= "「Keyword RpdBot~」\n\n";
+    $text .= "- Help\n";
+    $text .= "- /jam \n";
+    $text .= "- /quotes \n";
+    $text .= "- /say [teks] \n";
+    $text .= "- /definition [teks] \n";
+    $text .= "- /cooltext [teks] \n";
+    $text .= "- /shalat [lokasi] \n";
+    $text .= "- /qiblat [lokasi] \n";
+    $text .= "- /film [teks] \n";
+    $text .= "- /qr [teks] \n";
+    $text .= "- /neon [teks] \n";
+    $text .= "- /ahli [nama] \n";
+    $text .= "- /arti-nama [nama] \n";
+    $text .= "- /light [teks] \n";
+    $text .= "- /film-syn [Judul] \n";
+    $text .= "- /zodiak [tanggal lahir] \n";
+        $text .= "- /instagram [unsername] \n";
+        $text .= "- /jadwaltv [stasiun] \n";
+    $text .= "- /creator \n";
+    $text .= "\n「Done~」";
+    $balas = array(
+        'replyToken' => $replyToken,
+        'messages' => array(
+            array(
+                'type' => 'text',
+                'text' => $text
+            )
+        )
+    );
+}
+if ($type == 'join') {
+    $text = "Terimakasih Telah invite aku ke group ini silahkan ketik Help untuk lihat command aku :)";
+    $balas = array(
+        'replyToken' => $replyToken,
+        'messages' => array(
+            array(
+                'type' => 'text',
+                'text' => $text
+            )
+        )
+    );
+}
+#-------------------------[Open]-------------------------#
+if($message['type']=='text') {
+        if ($command == '/quotes') {
+        $result = quotes($options);
+        $balas = array(
+            'replyToken' => $replyToken,
+            'messages' => array(
+                array(
+                    'type' => 'text',
+                    'text'  => $result
+                )
+            )
+        );
+    }
+}   
+#-------------------------[Close]-------------------------#
 file_put_contents('./reply.json',$result);
 
 
